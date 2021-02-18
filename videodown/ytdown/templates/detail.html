@@ -1,10 +1,29 @@
+{% load mathfilters %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>{{ video.title }}</title>
 </head>
 <body>
-
+<form action="{% url 'yt_download' %}" method="post">
+    {% for stream in streams %}
+        {% csrf_token %}
+        <input type="radio" name="stream_itag" value="{{ stream.itag }}"{{ forloop.counter }}>
+        <label for="{{ forloop.counter }}">
+            {{ stream.default_filename }}
+            <b>{% if  stream.includes_audio_track and stream.includes_video_track %}
+                Audio and video tracks
+            {% elif stream.includes_video_track %}
+                Only video track
+            {% else %}
+                Only audio track
+            {% endif %}
+            </b>
+        {{ stream.filesize|div:1073741824|truncatechars:6 }}GB
+        </label><br>
+    {% endfor %}
+    <input type="submit">
+</form>
 </body>
 </html>
