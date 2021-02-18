@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>YT Download</title>
+</head>
+<body>
+<form action="{% url 'yt_download' %}" method="post">
+    {% csrf_token %}
+    <input type="url" placeholder="Enter video url" name="yt_video_url">
+    <a download><input type="submit"></a>
+</form>
+</body>
+</html>
